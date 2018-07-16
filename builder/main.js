@@ -1,4 +1,10 @@
 import {Builder} from './builder'
 
-let builder = new Builder();
+let canvas = document.querySelector('canvas');
+let builder = new Builder([
+  [0, 1, 1, 1],
+  [1, 0, 1, 1],
+  [1, 1, 0, 1],
+  [1, 1, 1, 0],
+], canvas);
 console.log('started');
