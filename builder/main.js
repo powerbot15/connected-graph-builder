@@ -7,4 +7,3 @@ let builder = new Builder([
   [1, 1, 0, 1],
   [1, 1, 1, 0],
 ], canvas);
-console.log('started');
