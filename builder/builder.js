@@ -48,8 +48,18 @@ export class Builder {
 
   buildVertices () {
     for (let i = 0; i < this.matrix.length; i++){
-      this.vertices.push();
+      this.vertices.push({x : this.startVertex.x, y : this.startVertex.y}, this.context);
+      this.rotateVertex();
     }
+  }
+
+  rotateVertex () {
+    const startX = this.startVertex.x;
+    const startY = this.startVertex.y;
+    const rotateCos = Math.cos(this.rotateRad);
+    const rotateSin = Math.sin(this.rotateRad);
+    this.startVertex.x = startX * rotateCos - startY * rotateSin;
+    this.startVertex.y = startY * rotateCos - startX * rotateSin;
   }
 }
 
@@ -59,10 +69,13 @@ class Vertex {
     this.x = coords.x;
     this.y = coords.y;
     this.ctx = context;
+    this.draw();
   }
 
   draw () {
+    this.ctx.beginPath();
     this.ctx.arc(this.x, this.y, 20, 0, RAD_2PI);
+    this.ctx.stroke();
   }
 
 }
