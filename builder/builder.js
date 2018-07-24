@@ -28,6 +28,7 @@ export class Builder {
     this.initCenter();
     this.initStartVertexCoords();
     this.initRotateRad();
+    this.buildVertices();
   }
 
   initCenter () {
@@ -36,8 +37,8 @@ export class Builder {
   }
 
   initStartVertexCoords () {
-    this.startVertex.x = this.center.x - 200;
-    this.startVertex.y = this.center.y;
+    this.startVertex.x = this.center.x;
+    this.startVertex.y = this.center.y - 200;
     this.vertices.push(new Vertex(this.startVertex, this.context));
   }
 
@@ -48,8 +49,8 @@ export class Builder {
 
   buildVertices () {
     for (let i = 0; i < this.matrix.length; i++){
-      this.vertices.push({x : this.startVertex.x, y : this.startVertex.y}, this.context);
       this.rotateVertex();
+      this.vertices.push(new Vertex({x : this.startVertex.x, y : this.startVertex.y}, this.context));
     }
   }
 
@@ -58,8 +59,9 @@ export class Builder {
     const startY = this.startVertex.y;
     const rotateCos = Math.cos(this.rotateRad);
     const rotateSin = Math.sin(this.rotateRad);
-    this.startVertex.x = startX * rotateCos - startY * rotateSin;
-    this.startVertex.y = startY * rotateCos - startX * rotateSin;
+    this.startVertex.x = (startX - this.center.x) * rotateCos - (startY - this.center.y) * rotateSin + this.center.x;
+    this.startVertex.y = (startY - this.center.y) * rotateCos + (startX - this.center.x) * rotateSin + this.center.y;
+    console.dir(this.startVertex.x);
   }
 }
 
