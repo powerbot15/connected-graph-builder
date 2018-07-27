@@ -29,6 +29,7 @@ export class Builder {
     this.initStartVertexCoords();
     this.initRotateRad();
     this.buildVertices();
+    this.connectVertices();
   }
 
   initCenter () {
@@ -62,6 +63,26 @@ export class Builder {
     this.startVertex.x = (startX - this.center.x) * rotateCos - (startY - this.center.y) * rotateSin + this.center.x;
     this.startVertex.y = (startY - this.center.y) * rotateCos + (startX - this.center.x) * rotateSin + this.center.y;
     console.dir(this.startVertex.x);
+  }
+
+  connectVertices () {
+    for (let i = 0; i < this.matrix.length; i++) {
+      for (let j = 0; j < this.matrix[i].length; j++) {
+        if (i === j) {
+          continue;
+        }
+        if (this.matrix[i][j] === 1) {
+          this.connectPair (i, j);
+        }
+      }
+    }
+  }
+
+  connectPair (startVertexIndex, endVertexIndex) {
+    this.context.beginPath();
+    this.context.moveTo(this.vertices[startVertexIndex].x, this.vertices[startVertexIndex].y);
+    this.context.lineTo(this.vertices[endVertexIndex].x, this.vertices[endVertexIndex].y);
+    this.context.stroke();
   }
 }
 
